@@ -5,7 +5,11 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import Graph from "./Graph";
+import Container from "./components/layout/Container";
+import Menu from "./components/layout/Menu";
+import Content from "./components/layout/Content";
+import Header from "./components/layout/Header";
+import RouteConfig from "./routes/RouteConfig";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -17,8 +21,13 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">test</div>
-      <Graph></Graph>
+      <Container>
+        <Header></Header>
+        <Menu></Menu>
+        <Content>
+          <RouteConfig></RouteConfig>
+        </Content>
+      </Container>
     </ApolloProvider>
   );
 }
