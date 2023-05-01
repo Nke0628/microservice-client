@@ -1,24 +1,17 @@
 import "./App.css";
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+import { Provider, Client, fetchExchange, cacheExchange } from "urql";
 import RouteConfig from "./routes/RouteConfig";
 
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: "http://localhost:4000/graphql",
-  }),
+const client = new Client({
+  url: "http://localhost:4000/graphql",
+  exchanges: [fetchExchange, cacheExchange],
 });
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <Provider value={client}>
       <RouteConfig></RouteConfig>
-    </ApolloProvider>
+    </Provider>
   );
 }
 

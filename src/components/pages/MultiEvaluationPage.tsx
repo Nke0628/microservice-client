@@ -1,22 +1,21 @@
-import { useQuery } from "@apollo/client";
 import { Loader, Select } from "@mantine/core";
-import { GET_MULTI_EVALUATION_PAGE } from "../../graphql/query";
-import { MantineSelectBoxData, MultiBusinessTermData } from "../../interfaces";
+import { MantineSelectBoxData } from "../../interfaces";
+import { useFetchTopPageDataQuery } from "../../graphql/generated/graphql";
 
 const MultiEvaluationPage: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_MULTI_EVALUATION_PAGE);
+  const [result] = useFetchTopPageDataQuery();
 
   // ローディング
-  if (loading) return <Loader />;
+  if (result.fetching) return <Loader />;
 
   // エラー
-  if (error) return <p>Error</p>;
+  if (result.error || !result.data) return <p>Error</p>;
 
   // 正常
   let multiBusinessTermSelectBoxData: MantineSelectBoxData[] = [];
   let currentTermValue: string = "";
-  multiBusinessTermSelectBoxData = data.multiBusinessTerms.map(
-    (multiBusinessTerm: MultiBusinessTermData) => {
+  multiBusinessTermSelectBoxData = result.data.multiBusinessTerms.map(
+    (multiBusinessTerm) => {
       if (multiBusinessTerm.isCurrentTerm) {
         currentTermValue = multiBusinessTerm.id.toString();
       }

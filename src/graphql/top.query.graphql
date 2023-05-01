@@ -1,0 +1,7 @@
+query fetchTopPageData {
+  multiBusinessTerms(take: 5, orederBy: false) {
+    id
+    businessTermName
+    isCurrentTerm
+  }
+}
