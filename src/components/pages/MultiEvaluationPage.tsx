@@ -1,6 +1,8 @@
 import { Loader, Select } from "@mantine/core";
 import { MantineSelectBoxData } from "../../interfaces";
 import { useFetchTopPageDataQuery } from "../../graphql/generated/graphql";
+import { Button } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 const MultiEvaluationPage: React.FC = () => {
   const [result] = useFetchTopPageDataQuery();
@@ -35,6 +37,11 @@ const MultiEvaluationPage: React.FC = () => {
         defaultValue={currentTermValue}
         style={{ width: 200 }}
       />
+      <div style={{ marginTop: 15 }}>
+        <Link to={"/sample"}>
+          <Button>新規登録</Button>
+        </Link>
+      </div>
     </div>
   );
 };

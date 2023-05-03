@@ -1,0 +1,5 @@
+mutation test($input: RegisterMultiEvaluationInput!) {
+  registerMultiEvaluation(input: $input) {
+    id
+  }
+}

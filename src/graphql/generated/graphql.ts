@@ -39,6 +39,16 @@ export type MultiEvaluation = {
   userId: Scalars['Float'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  registerMultiEvaluation: MultiEvaluation;
+};
+
+
+export type MutationRegisterMultiEvaluationArgs = {
+  input: RegisterMultiEvaluationInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   multiBusinessTerms: Array<MulritTerms>;
@@ -51,11 +61,27 @@ export type QueryMultiBusinessTermsArgs = {
   take: Scalars['Float'];
 };
 
+export type RegisterMultiEvaluationInput = {
+  goodComment: Scalars['String'];
+  improvementComment: Scalars['String'];
+  multiTermId: Scalars['Float'];
+  score: Scalars['Float'];
+  targetUserId: Scalars['Float'];
+  userId: Scalars['Float'];
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['ID'];
   name: Scalars['String'];
 };
+
+export type TestMutationVariables = Exact<{
+  input: RegisterMultiEvaluationInput;
+}>;
+
+
+export type TestMutation = { __typename?: 'Mutation', registerMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
 
 export type FetchTopPageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -63,6 +89,17 @@ export type FetchTopPageDataQueryVariables = Exact<{ [key: string]: never; }>;
 export type FetchTopPageDataQuery = { __typename?: 'Query', multiBusinessTerms: Array<{ __typename?: 'MulritTerms', id: string, businessTermName: string, isCurrentTerm: boolean }> };
 
 
+export const TestDocument = gql`
+    mutation test($input: RegisterMultiEvaluationInput!) {
+  registerMultiEvaluation(input: $input) {
+    id
+  }
+}
+    `;
+
+export function useTestMutation() {
+  return Urql.useMutation<TestMutation, TestMutationVariables>(TestDocument);
+};
 export const FetchTopPageDataDocument = gql`
     query fetchTopPageData {
   multiBusinessTerms(take: 5, orederBy: false) {
