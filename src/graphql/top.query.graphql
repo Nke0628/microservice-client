@@ -1,7 +1,13 @@
-query fetchTopPageData {
+query fetchTopPageData($termId: Float!) {
   multiBusinessTerms(take: 5, orederBy: false) {
     id
     businessTermName
     isCurrentTerm
+  }
+  multiEvaluations(termId: $termId) {
+    id
+    targetUser {
+      name
+    }
   }
 }

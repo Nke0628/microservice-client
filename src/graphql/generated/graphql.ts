@@ -52,13 +52,18 @@ export type MutationRegisterMultiEvaluationArgs = {
 export type Query = {
   __typename?: 'Query';
   multiBusinessTerms: Array<MulritTerms>;
-  multiEvaluation: Array<MultiEvaluation>;
+  multiEvaluations: Array<MultiEvaluation>;
 };
 
 
 export type QueryMultiBusinessTermsArgs = {
   orederBy: Scalars['Boolean'];
   take: Scalars['Float'];
+};
+
+
+export type QueryMultiEvaluationsArgs = {
+  termId: Scalars['Float'];
 };
 
 export type RegisterMultiEvaluationInput = {
@@ -83,10 +88,12 @@ export type TestMutationVariables = Exact<{
 
 export type TestMutation = { __typename?: 'Mutation', registerMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
 
-export type FetchTopPageDataQueryVariables = Exact<{ [key: string]: never; }>;
+export type FetchTopPageDataQueryVariables = Exact<{
+  termId: Scalars['Float'];
+}>;
 
 
-export type FetchTopPageDataQuery = { __typename?: 'Query', multiBusinessTerms: Array<{ __typename?: 'MulritTerms', id: string, businessTermName: string, isCurrentTerm: boolean }> };
+export type FetchTopPageDataQuery = { __typename?: 'Query', multiBusinessTerms: Array<{ __typename?: 'MulritTerms', id: string, businessTermName: string, isCurrentTerm: boolean }>, multiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
 
 
 export const TestDocument = gql`
@@ -101,15 +108,21 @@ export function useTestMutation() {
   return Urql.useMutation<TestMutation, TestMutationVariables>(TestDocument);
 };
 export const FetchTopPageDataDocument = gql`
-    query fetchTopPageData {
+    query fetchTopPageData($termId: Float!) {
   multiBusinessTerms(take: 5, orederBy: false) {
     id
     businessTermName
     isCurrentTerm
   }
+  multiEvaluations(termId: $termId) {
+    id
+    targetUser {
+      name
+    }
+  }
 }
     `;
 
-export function useFetchTopPageDataQuery(options?: Omit<Urql.UseQueryArgs<FetchTopPageDataQueryVariables>, 'query'>) {
+export function useFetchTopPageDataQuery(options: Omit<Urql.UseQueryArgs<FetchTopPageDataQueryVariables>, 'query'>) {
   return Urql.useQuery<FetchTopPageDataQuery, FetchTopPageDataQueryVariables>({ query: FetchTopPageDataDocument, ...options });
 };
