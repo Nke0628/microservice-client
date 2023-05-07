@@ -1,12 +1,4 @@
-export type MultiBusinessTermData = {
-  id: number;
-  businessTermName: string;
-  isCurrentTerm: boolean;
-};
-
-export type MultiBusinessTermDataList = MultiBusinessTermData[];
-
-export interface MantineSelectBoxData {
+export interface SelectData {
   value: string;
   label: string;
 }

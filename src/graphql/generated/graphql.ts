@@ -15,8 +15,8 @@ export type Scalars = {
   Float: number;
 };
 
-export type MulritTerms = {
-  __typename?: 'MulritTerms';
+export type MulritTerm = {
+  __typename?: 'MulritTerm';
   businessTermEndDate: Scalars['String'];
   businessTermName: Scalars['String'];
   businessTermStartDate: Scalars['String'];
@@ -41,24 +41,18 @@ export type MultiEvaluation = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  registerMultiEvaluation: MultiEvaluation;
+  submitMultiEvaluation: MultiEvaluation;
 };
 
 
-export type MutationRegisterMultiEvaluationArgs = {
-  input: RegisterMultiEvaluationInput;
+export type MutationSubmitMultiEvaluationArgs = {
+  input: SubmitMultiEvaluationInput;
 };
 
 export type Query = {
   __typename?: 'Query';
-  multiBusinessTerms: Array<MulritTerms>;
   multiEvaluations: Array<MultiEvaluation>;
-};
-
-
-export type QueryMultiBusinessTermsArgs = {
-  orederBy: Scalars['Boolean'];
-  take: Scalars['Float'];
+  multiTerms: Array<MulritTerm>;
 };
 
 
@@ -66,7 +60,13 @@ export type QueryMultiEvaluationsArgs = {
   termId: Scalars['Float'];
 };
 
-export type RegisterMultiEvaluationInput = {
+
+export type QueryMultiTermsArgs = {
+  orederBy: Scalars['Boolean'];
+  take: Scalars['Float'];
+};
+
+export type SubmitMultiEvaluationInput = {
   goodComment: Scalars['String'];
   improvementComment: Scalars['String'];
   multiTermId: Scalars['Float'];
@@ -81,37 +81,28 @@ export type User = {
   name: Scalars['String'];
 };
 
-export type TestMutationVariables = Exact<{
-  input: RegisterMultiEvaluationInput;
-}>;
-
-
-export type TestMutation = { __typename?: 'Mutation', registerMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
-
-export type FetchTopPageDataQueryVariables = Exact<{
+export type FetchMultiEvaluationsQueryVariables = Exact<{
   termId: Scalars['Float'];
 }>;
 
 
-export type FetchTopPageDataQuery = { __typename?: 'Query', multiBusinessTerms: Array<{ __typename?: 'MulritTerms', id: string, businessTermName: string, isCurrentTerm: boolean }>, multiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
+export type FetchMultiEvaluationsQuery = { __typename?: 'Query', multiTerms: Array<{ __typename?: 'MulritTerm', id: string, businessTermName: string, multiTermStartDate: string, multiTermEndDate: string, isCurrentTerm: boolean }>, multiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
+
+export type TestMutationVariables = Exact<{
+  input: SubmitMultiEvaluationInput;
+}>;
 
 
-export const TestDocument = gql`
-    mutation test($input: RegisterMultiEvaluationInput!) {
-  registerMultiEvaluation(input: $input) {
-    id
-  }
-}
-    `;
+export type TestMutation = { __typename?: 'Mutation', submitMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
 
-export function useTestMutation() {
-  return Urql.useMutation<TestMutation, TestMutationVariables>(TestDocument);
-};
-export const FetchTopPageDataDocument = gql`
-    query fetchTopPageData($termId: Float!) {
-  multiBusinessTerms(take: 5, orederBy: false) {
+
+export const FetchMultiEvaluationsDocument = gql`
+    query fetchMultiEvaluations($termId: Float!) {
+  multiTerms(take: 5, orederBy: false) {
     id
     businessTermName
+    multiTermStartDate
+    multiTermEndDate
     isCurrentTerm
   }
   multiEvaluations(termId: $termId) {
@@ -123,6 +114,17 @@ export const FetchTopPageDataDocument = gql`
 }
     `;
 
-export function useFetchTopPageDataQuery(options: Omit<Urql.UseQueryArgs<FetchTopPageDataQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchTopPageDataQuery, FetchTopPageDataQueryVariables>({ query: FetchTopPageDataDocument, ...options });
+export function useFetchMultiEvaluationsQuery(options: Omit<Urql.UseQueryArgs<FetchMultiEvaluationsQueryVariables>, 'query'>) {
+  return Urql.useQuery<FetchMultiEvaluationsQuery, FetchMultiEvaluationsQueryVariables>({ query: FetchMultiEvaluationsDocument, ...options });
+};
+export const TestDocument = gql`
+    mutation test($input: SubmitMultiEvaluationInput!) {
+  submitMultiEvaluation(input: $input) {
+    id
+  }
+}
+    `;
+
+export function useTestMutation() {
+  return Urql.useMutation<TestMutation, TestMutationVariables>(TestDocument);
 };

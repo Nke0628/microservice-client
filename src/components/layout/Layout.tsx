@@ -1,4 +1,5 @@
-import React from "react";
+import { Loader } from "@mantine/core";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Container from "./Container";
 import Content from "./Content";
@@ -11,7 +12,9 @@ const Layout: React.FC = () => {
       <Header></Header>
       <Menu></Menu>
       <Content>
-        <Outlet></Outlet>
+        <Suspense fallback={<Loader />}>
+          <Outlet></Outlet>
+        </Suspense>
       </Content>
     </Container>
   );

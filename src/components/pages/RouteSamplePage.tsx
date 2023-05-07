@@ -19,6 +19,10 @@ const RouteSamplePage: React.FC = () => {
         goodComment: goodComment,
         improvementComment: improvementComment,
       },
+    }).then((result) => {
+      if (result.error) {
+        alert(result.error?.graphQLErrors[0].extensions.errorDetail);
+      }
     });
   };
   return (

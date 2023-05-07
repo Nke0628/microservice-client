@@ -1,72 +1,64 @@
-import { Badge, Card, Group, Loader, Select, Text } from "@mantine/core";
-import { MantineSelectBoxData } from "../../interfaces";
-import { useFetchTopPageDataQuery } from "../../graphql/generated/graphql";
+import { Select } from "@mantine/core";
+import { SelectData } from "../../interfaces";
+import { useFetchMultiEvaluationsQuery } from "../../graphql/generated/graphql";
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
-import TargetCard from "../layout/TargetCard";
-import styled from "styled-components";
 import { useState } from "react";
+import TargetCardList from "../featuer/multiEvaluation/TargetCardList";
+import styled from "styled-components";
 
 const MultiEvaluationPage: React.FC = () => {
-  const CardList = styled.div`
-    display: grid;
-    grid-template-columns: 300px 300px 300px;
-    gap: 15px;
+  const CreateButtonArea = styled.div`
+    margin: 30px 0 10px 0;
   `;
 
-  const [termId, setTermId] = useState<string | null>(null);
-
-  const [result] = useFetchTopPageDataQuery({
+  const [multiTermId, setMultiTermId] = useState<string | null>(null);
+  const [result] = useFetchMultiEvaluationsQuery({
     variables: {
-      termId: Number(termId),
+      termId: Number(multiTermId),
     },
   });
+  const { multiEvaluations, multiTerms } = result.data!;
 
-  // ローディング
-  if (result.fetching) return <Loader />;
-
-  // エラー
-  if (result.error || !result.data) return <p>Error</p>;
-
-  // 正常
-  let multiBusinessTermSelectBoxData: MantineSelectBoxData[] = [];
-  let currentTermValue: string = "";
-  multiBusinessTermSelectBoxData = result.data.multiBusinessTerms.map(
-    (multiBusinessTerm) => {
-      if (multiBusinessTerm.isCurrentTerm) {
-        currentTermValue = multiBusinessTerm.id.toString();
-      }
+  const getSelectBoxData = (): SelectData[] => {
+    return multiTerms.map((multiTerm) => {
       return {
-        value: multiBusinessTerm.id.toString(),
-        label: multiBusinessTerm.businessTermName,
+        value: multiTerm.id.toString(),
+        label: multiTerm.businessTermName,
       };
-    }
-  );
+    });
+  };
+
+  const getCurrentMultiTermId = (): string => {
+    return multiTerms.find((multiTerm) => multiTerm.isCurrentTerm)!.id;
+  };
+
+  const getMultiTermPeriod = (): string => {
+    const targetTerm = multiTermId
+      ? multiTerms.find((muliTerm) => muliTerm.id === multiTermId)
+      : multiTerms.find((muliTerm) => muliTerm.isCurrentTerm);
+    return targetTerm!.multiTermStartDate + "~" + targetTerm!.multiTermEndDate;
+  };
 
   return (
-    <div>
-      <Select
-        label="営業期"
-        placeholder="Pick one"
-        data={multiBusinessTermSelectBoxData}
-        defaultValue={termId ?? currentTermValue}
-        style={{ width: 200 }}
-        onChange={setTermId}
-      />
-      <div style={{ marginTop: 15 }}>
-        <Link to={"/sample"}>
-          <Button>新規登録</Button>
-        </Link>
+    <>
+      <div>
+        <Select
+          label="営業期"
+          data={getSelectBoxData()}
+          defaultValue={multiTermId ?? getCurrentMultiTermId()}
+          style={{ width: 200, marginRight: 20, display: "inline-block" }}
+          onChange={setMultiTermId}
+        />
+        <span>{getMultiTermPeriod()}</span>
       </div>
-      <CardList>
-        {result.data.multiEvaluations.map((multi) => (
-          <TargetCard
-            id={Number(multi.id)}
-            targetUserName={multi.targetUser.name}
-          ></TargetCard>
-        ))}
-      </CardList>
-    </div>
+      <CreateButtonArea>
+        <Link to={"/sample"}>
+          <Button>＋新規登録</Button>
+        </Link>
+      </CreateButtonArea>
+      <TargetCardList targetCardDataList={multiEvaluations}></TargetCardList>
+    </>
   );
 };
 

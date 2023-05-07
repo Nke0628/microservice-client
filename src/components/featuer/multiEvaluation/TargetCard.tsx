@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 type Props = {
   id: number;
-  targetUserName: string;
+  name: string;
 };
 
-const TargetCard: React.FC<Props> = ({ targetUserName }) => {
+const TargetCard: React.FC<Props> = ({ name }) => {
   const TargetUserName = styled.div`
     font-size: 1rem;
     font-weight: bold;
@@ -15,7 +15,7 @@ const TargetCard: React.FC<Props> = ({ targetUserName }) => {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <TargetUserName>{targetUserName}</TargetUserName>
+      <TargetUserName>{name}</TargetUserName>
     </Card>
   );
 };
