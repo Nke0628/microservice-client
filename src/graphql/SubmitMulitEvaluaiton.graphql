@@ -1,0 +1,5 @@
+mutation submitMultiEvaluation($input: SubmitMultiEvaluationInput!) {
+  submitMultiEvaluation(input: $input) {
+    id
+  }
+}

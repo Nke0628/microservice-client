@@ -88,12 +88,12 @@ export type FetchMultiEvaluationsQueryVariables = Exact<{
 
 export type FetchMultiEvaluationsQuery = { __typename?: 'Query', multiTerms: Array<{ __typename?: 'MulritTerm', id: string, businessTermName: string, multiTermStartDate: string, multiTermEndDate: string, isCurrentTerm: boolean }>, multiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
 
-export type TestMutationVariables = Exact<{
+export type SubmitMultiEvaluationMutationVariables = Exact<{
   input: SubmitMultiEvaluationInput;
 }>;
 
 
-export type TestMutation = { __typename?: 'Mutation', submitMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
+export type SubmitMultiEvaluationMutation = { __typename?: 'Mutation', submitMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
 
 
 export const FetchMultiEvaluationsDocument = gql`
@@ -117,14 +117,14 @@ export const FetchMultiEvaluationsDocument = gql`
 export function useFetchMultiEvaluationsQuery(options: Omit<Urql.UseQueryArgs<FetchMultiEvaluationsQueryVariables>, 'query'>) {
   return Urql.useQuery<FetchMultiEvaluationsQuery, FetchMultiEvaluationsQueryVariables>({ query: FetchMultiEvaluationsDocument, ...options });
 };
-export const TestDocument = gql`
-    mutation test($input: SubmitMultiEvaluationInput!) {
+export const SubmitMultiEvaluationDocument = gql`
+    mutation submitMultiEvaluation($input: SubmitMultiEvaluationInput!) {
   submitMultiEvaluation(input: $input) {
     id
   }
 }
     `;
 
-export function useTestMutation() {
-  return Urql.useMutation<TestMutation, TestMutationVariables>(TestDocument);
+export function useSubmitMultiEvaluationMutation() {
+  return Urql.useMutation<SubmitMultiEvaluationMutation, SubmitMultiEvaluationMutationVariables>(SubmitMultiEvaluationDocument);
 };

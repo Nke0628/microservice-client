@@ -6,7 +6,7 @@ const MultiEvaluationPage = lazy(
   () => import("../components/pages/MultiEvaluationPage")
 );
 const RputeSamplePage = lazy(
-  () => import("../components/pages/RouteSamplePage")
+  () => import("../components/pages/SumitMultiEvaluationPage")
 );
 
 const RouteConfig = () => (

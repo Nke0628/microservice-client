@@ -1,5 +1,0 @@
-mutation test($input: SubmitMultiEvaluationInput!) {
-  submitMultiEvaluation(input: $input) {
-    id
-  }
-}
