@@ -1,4 +1,4 @@
-import { Select } from "@mantine/core";
+import { Pagination, Select } from "@mantine/core";
 import { SelectData } from "../../interfaces";
 import { useFetchMultiEvaluationsQuery } from "../../graphql/generated/graphql";
 import { Button } from "@mantine/core";
@@ -12,13 +12,17 @@ const MultiEvaluationPage: React.FC = () => {
     margin: 30px 0 10px 0;
   `;
 
+  const PaginationArea = styled.div`
+    margin: 30px 0 10px 0;
+  `;
+
   const [multiTermId, setMultiTermId] = useState<string | null>(null);
   const [result] = useFetchMultiEvaluationsQuery({
     variables: {
       termId: Number(multiTermId),
     },
   });
-  const { multiEvaluations, multiTerms } = result.data!;
+  const { myEvaluatingMultiEvaluations, multiTerms } = result.data!;
 
   const getSelectBoxData = (): SelectData[] => {
     return multiTerms.map((multiTerm) => {
@@ -57,7 +61,12 @@ const MultiEvaluationPage: React.FC = () => {
           <Button>＋新規登録</Button>
         </Link>
       </CreateButtonArea>
-      <TargetCardList targetCardDataList={multiEvaluations}></TargetCardList>
+      <TargetCardList
+        targetCardDataList={myEvaluatingMultiEvaluations}
+      ></TargetCardList>
+      <PaginationArea>
+        <Pagination total={10} />
+      </PaginationArea>
     </>
   );
 };

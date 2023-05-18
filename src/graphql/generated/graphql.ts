@@ -51,19 +51,19 @@ export type MutationSubmitMultiEvaluationArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  multiEvaluations: Array<MultiEvaluation>;
   multiTerms: Array<MulritTerm>;
-};
-
-
-export type QueryMultiEvaluationsArgs = {
-  termId: Scalars['Float'];
+  myEvaluatingMultiEvaluations: Array<MultiEvaluation>;
 };
 
 
 export type QueryMultiTermsArgs = {
   orederBy: Scalars['Boolean'];
   take: Scalars['Float'];
+};
+
+
+export type QueryMyEvaluatingMultiEvaluationsArgs = {
+  termId: Scalars['Float'];
 };
 
 export type SubmitMultiEvaluationInput = {
@@ -86,7 +86,7 @@ export type FetchMultiEvaluationsQueryVariables = Exact<{
 }>;
 
 
-export type FetchMultiEvaluationsQuery = { __typename?: 'Query', multiTerms: Array<{ __typename?: 'MulritTerm', id: string, businessTermName: string, multiTermStartDate: string, multiTermEndDate: string, isCurrentTerm: boolean }>, multiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
+export type FetchMultiEvaluationsQuery = { __typename?: 'Query', multiTerms: Array<{ __typename?: 'MulritTerm', id: string, businessTermName: string, multiTermStartDate: string, multiTermEndDate: string, isCurrentTerm: boolean }>, myEvaluatingMultiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
 
 export type SubmitMultiEvaluationMutationVariables = Exact<{
   input: SubmitMultiEvaluationInput;
@@ -105,7 +105,7 @@ export const FetchMultiEvaluationsDocument = gql`
     multiTermEndDate
     isCurrentTerm
   }
-  multiEvaluations(termId: $termId) {
+  myEvaluatingMultiEvaluations(termId: $termId) {
     id
     targetUser {
       name

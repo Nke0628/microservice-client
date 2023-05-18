@@ -3,7 +3,7 @@ import { FetchMultiEvaluationsQuery } from "../../../graphql/generated/graphql";
 import TargetCard from "./TargetCard";
 
 type Props = {
-  targetCardDataList: FetchMultiEvaluationsQuery["multiEvaluations"];
+  targetCardDataList: FetchMultiEvaluationsQuery["myEvaluatingMultiEvaluations"];
 };
 
 const TargetCardList: React.FC<Props> = ({ targetCardDataList }) => {

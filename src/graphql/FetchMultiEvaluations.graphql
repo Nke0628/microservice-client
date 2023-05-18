@@ -6,7 +6,7 @@ query fetchMultiEvaluations($termId: Float!) {
     multiTermEndDate
     isCurrentTerm
   }
-  multiEvaluations(termId: $termId) {
+  myEvaluatingMultiEvaluations(termId: $termId) {
     id
     targetUser {
       name
