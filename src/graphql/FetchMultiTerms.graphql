@@ -1,0 +1,9 @@
+query fetchMultiTerms {
+  multiTerms(take: 5, orederBy: false) {
+    id
+    businessTermName
+    multiTermStartDate
+    multiTermEndDate
+    isCurrentTerm
+  }
+}

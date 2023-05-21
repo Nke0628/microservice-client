@@ -10,7 +10,7 @@ const Header: React.FC = () => {
     height: 30px;
     line-height: 30px;
     border-bottom: 1px solid #091e4224;
-    background-color: white;
+    background-color: #0284c7;
     z-index: 2;
     padding: 5px 15px;
     font-weight: bold;
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
 
   const Title = styled.a`
     text-decoration: none;
-    color: inherit;
+    color: white;
   `;
 
   return (

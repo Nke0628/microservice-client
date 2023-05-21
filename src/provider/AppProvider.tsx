@@ -4,7 +4,7 @@ import ErrorFallback from "../components/common/ErrorFallback";
 
 const client = new Client({
   url: process.env.REACT_APP_BFF_URL!,
-  exchanges: [fetchExchange, cacheExchange],
+  exchanges: [fetchExchange],
   suspense: true,
 });
 

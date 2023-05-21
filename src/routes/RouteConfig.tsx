@@ -8,6 +8,9 @@ const MultiEvaluationPage = lazy(
 const RputeSamplePage = lazy(
   () => import("../components/pages/SumitMultiEvaluationPage")
 );
+const ReportSettingPage = lazy(
+  () => import("../components/pages/ReportSettingPage")
+);
 
 const RouteConfig = () => (
   <BrowserRouter>
@@ -15,6 +18,7 @@ const RouteConfig = () => (
       <Route path="/" element={<Layout />}>
         <Route index element={<MultiEvaluationPage />} />
         <Route path="/sample" element={<RputeSamplePage />} />
+        <Route path="/report_setting" element={<ReportSettingPage />} />
       </Route>
     </Routes>
   </BrowserRouter>

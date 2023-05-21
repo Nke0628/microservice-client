@@ -1,0 +1,17 @@
+query fetchReportSetting($termId: Float!) {
+  reportSetting(termId: $termId) {
+    saveUser {
+      id
+      name
+    }
+    savedAt
+    reportSettingDetails {
+      reportSettingDetailId
+      positionLayerType
+      positionLayerName
+      inputFlg
+      theme
+      charaNum
+    }
+  }
+}

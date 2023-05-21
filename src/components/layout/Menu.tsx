@@ -13,6 +13,7 @@ const Menu: React.FC = () => {
     box-sizing: border-box;
     border-right: 1px solid #091e4224;
     font-size: 15px;
+    font-weight: bold;
   `;
 
   return <Wrapper>360度評価</Wrapper>;

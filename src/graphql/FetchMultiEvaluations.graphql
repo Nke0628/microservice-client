@@ -1,11 +1,4 @@
 query fetchMultiEvaluations($termId: Float!) {
-  multiTerms(take: 5, orederBy: false) {
-    id
-    businessTermName
-    multiTermStartDate
-    multiTermEndDate
-    isCurrentTerm
-  }
   myEvaluatingMultiEvaluations(termId: $termId) {
     id
     targetUser {
