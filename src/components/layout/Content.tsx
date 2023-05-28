@@ -12,7 +12,7 @@ const Content: React.FC<Props> = ({ children }) => {
     margin-bottom: 100px;
     box-sizing: border-box;
     overflow-y: auto;
-    padding: 15px 25px;
+    padding: 15px 35px;
     z-index: 1;
     font-size: 15px;
   `;

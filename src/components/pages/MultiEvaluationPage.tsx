@@ -10,16 +10,25 @@ import { useState } from "react";
 import TargetCardList from "../featuer/multiEvaluation/TargetCardList";
 import styled from "styled-components";
 
+const ContentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const BusinessTerm = styled.div``;
+
+const ActionMenu = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 10px 0;
+`;
+
+const PaginationArea = styled.div`
+  margin: 30px 0 10px 0;
+`;
+
 const MultiEvaluationPage: React.FC = () => {
-  const CreateButtonArea = styled.div`
-    margin: 30px 0 10px 0;
-  `;
-
-  const PaginationArea = styled.div`
-    margin: 30px 0 10px 0;
-  `;
-
-  //　営業期取得
   const [FetchMultiTermsResult] = useFetchMultiTermsQuery();
   const { multiTerms } = FetchMultiTermsResult.data!;
   const getCurrentMultiTermId = (): string => {
@@ -55,20 +64,17 @@ const MultiEvaluationPage: React.FC = () => {
 
   return (
     <>
-      <div>
-        <Select
-          label="営業期"
-          data={getSelectBoxData()}
-          defaultValue={multiTermId ?? getCurrentMultiTermId()}
-          style={{ width: 200, marginRight: 20, display: "inline-block" }}
-          onChange={setMultiTermId}
-        />
-        <span>{getMultiTermPeriod()}</span>
-      </div>
-      <CreateButtonArea>
-        <Link to={"/sample"}>
-          <Button>＋新規登録</Button>
-        </Link>
+      <ContentHeader>
+        <BusinessTerm>
+          <Select
+            label="営業期"
+            data={getSelectBoxData()}
+            defaultValue={multiTermId ?? getCurrentMultiTermId()}
+            style={{ width: 200, marginRight: 20, display: "inline-block" }}
+            onChange={setMultiTermId}
+          />
+          {getMultiTermPeriod()}
+        </BusinessTerm>
         <Link
           to={{
             pathname: "report_setting",
@@ -77,7 +83,12 @@ const MultiEvaluationPage: React.FC = () => {
         >
           <Button>設定</Button>
         </Link>
-      </CreateButtonArea>
+      </ContentHeader>
+      <ActionMenu>
+        <Link to={"/sample"}>
+          <Button>＋新規登録</Button>
+        </Link>
+      </ActionMenu>
       <TargetCardList
         targetCardDataList={myEvaluatingMultiEvaluations}
       ></TargetCardList>
