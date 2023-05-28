@@ -3,6 +3,11 @@ import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import { useSubmitMultiEvaluationMutation } from "../../graphql/generated/graphql";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { components } from "react-select";
+import { useDebounce } from "../../hooks/debounce";
 
 type SubmitMultiEvaluationFormData = {
   targetUserId: string;
@@ -55,9 +60,66 @@ const RouteSamplePage: React.FC = () => {
     });
   };
 
+  // React-Selectを使用して非同期で対象者候補を取得する
+  const [inputText, setInputText] = useState("");
+  const [options, setOptions] = useState([]);
+  const [page, setPage] = useState(1);
+  const debouncedInputText = useDebounce(inputText, 500);
+  const addnewOption = () => {
+    setPage(page + 1);
+  };
+  const url = `https://api.github.com/search/users?q=${inputText} in:login&per_page=5&page=${page}`;
+  useEffect(() => {
+    const getData = async () => {
+      const arr: any = [...options];
+      await axios.get(url).then((res) => {
+        let result = res.data.items;
+        result.map((user: { id: any; login: any }) => {
+          return arr.push({ value: user.id, label: user.login });
+        });
+        setOptions(arr);
+      });
+    };
+    if (inputText !== "") {
+      getData();
+    } else {
+      setOptions([]);
+    }
+  }, [debouncedInputText, page]);
+
+  // 更に表示する場合の
+  const SelectMenuButton = (props: any) => {
+    return (
+      <components.MenuList {...props}>
+        {props.children}
+        <p
+          style={{ cursor: "pointer", color: "#228be6", paddingLeft: "15px" }}
+          onClick={() => addnewOption()}
+        >
+          + 更に表示する
+        </p>
+      </components.MenuList>
+    );
+  };
+
+  // セレクトボックスに入力されたテキストの状態更新
+  const handleSelectInputChange = (input: string) => {
+    setInputText(input);
+    setOptions([]);
+    setPage(1);
+  };
+
   return (
     <div>
       <form onSubmit={form.onSubmit(handleSubmitMultiEvaluation)}>
+        <Select
+          placeholder="名前を入力してください"
+          noOptionsMessage={() => "ユーザーはいません"}
+          options={options}
+          isMulti
+          components={{ MenuList: SelectMenuButton }}
+          onInputChange={handleSelectInputChange}
+        />
         <TextInput
           {...form.getInputProps("targetUserId")}
           label="対象者"
