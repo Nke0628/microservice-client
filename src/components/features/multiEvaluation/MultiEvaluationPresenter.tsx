@@ -1,14 +1,9 @@
 import { Pagination, Select } from "@mantine/core";
-import { SelectData } from "../../interfaces";
-import {
-  useFetchMultiEvaluationsQuery,
-  useFetchMultiTermsQuery,
-} from "../../graphql/generated/graphql";
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import TargetCardList from "../featuer/multiEvaluation/TargetCardList";
+import TargetCardList from "../../features/multiEvaluation/TargetCardList";
 import styled from "styled-components";
+import { FetchMultiEvaluationsQuery } from "../../../graphql/generated/graphql";
 
 const ContentHeader = styled.div`
   display: flex;
@@ -28,25 +23,32 @@ const PaginationArea = styled.div`
   margin: 30px 0 10px 0;
 `;
 
-const MultiEvaluationPage: React.FC = () => {
-  const [FetchMultiTermsResult] = useFetchMultiTermsQuery();
-  const { multiTerms } = FetchMultiTermsResult.data!;
-  const getCurrentMultiTermId = (): string => {
-    return multiTerms.find((multiTerm) => multiTerm.isCurrentTerm)!.id;
-  };
-  const [multiTermId, setMultiTermId] = useState<string | null>(
-    getCurrentMultiTermId()
-  );
+export type MultiEvaluationPresenterProps = {
+  multiTerms: {
+    id: string;
+    businessTermName: string;
+    multiTermStartDate: string;
+    multiTermEndDate: string;
+    isCurrentTerm: boolean;
+  }[];
+  multiTermId: string;
+  setMultiTermId: (value: string) => void;
+  evaluatingEvalations: FetchMultiEvaluationsQuery["myEvaluatingMultiEvaluations"];
+};
 
-  // 評価取得
-  const [result] = useFetchMultiEvaluationsQuery({
-    variables: {
-      termId: Number(multiTermId),
-    },
-  });
-  const { myEvaluatingMultiEvaluations } = result.data!;
+type SelectData = {
+  value: string;
+  label: string;
+};
 
-  const getSelectBoxData = (): SelectData[] => {
+const MultiEvaluationPresenter: React.FC<MultiEvaluationPresenterProps> = ({
+  multiTerms,
+  multiTermId,
+  setMultiTermId,
+  evaluatingEvalations,
+}) => {
+  //　Mantineのセレクトボックス用に変換
+  const convertPropsToMultiTermSelectBox = (): SelectData[] => {
     return multiTerms.map((multiTerm) => {
       return {
         value: multiTerm.id.toString(),
@@ -55,10 +57,11 @@ const MultiEvaluationPage: React.FC = () => {
     });
   };
 
-  const getMultiTermPeriod = (): string => {
-    const targetTerm = multiTermId
-      ? multiTerms.find((muliTerm) => muliTerm.id === multiTermId)
-      : multiTerms.find((muliTerm) => muliTerm.isCurrentTerm);
+  // 評価期間のラベル生成
+  const convertPropsToMultiTermLabel = (): string => {
+    const targetTerm = multiTerms.find(
+      (muliTerm) => muliTerm.id === multiTermId
+    );
     return targetTerm!.multiTermStartDate + "~" + targetTerm!.multiTermEndDate;
   };
 
@@ -68,17 +71,17 @@ const MultiEvaluationPage: React.FC = () => {
         <BusinessTerm>
           <Select
             label="営業期"
-            data={getSelectBoxData()}
-            defaultValue={multiTermId ?? getCurrentMultiTermId()}
+            data={convertPropsToMultiTermSelectBox()}
+            defaultValue={String(multiTermId)}
             style={{ width: 200, marginRight: 20, display: "inline-block" }}
             onChange={setMultiTermId}
           />
-          {getMultiTermPeriod()}
+          {convertPropsToMultiTermLabel()}
         </BusinessTerm>
         <Link
           to={{
             pathname: "report_setting",
-            search: "?term_id=" + (multiTermId ?? getCurrentMultiTermId()),
+            search: "?term_id=" + multiTermId,
           }}
         >
           <Button>設定</Button>
@@ -90,7 +93,7 @@ const MultiEvaluationPage: React.FC = () => {
         </Link>
       </ActionMenu>
       <TargetCardList
-        targetCardDataList={myEvaluatingMultiEvaluations}
+        targetCardDataList={evaluatingEvalations}
       ></TargetCardList>
       <PaginationArea>
         <Pagination total={10} />
@@ -99,4 +102,4 @@ const MultiEvaluationPage: React.FC = () => {
   );
 };
 
-export default MultiEvaluationPage;
+export default MultiEvaluationPresenter;

@@ -1,7 +1,7 @@
 import { Button, Textarea, TextInput } from "@mantine/core";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
-import { useSubmitMultiEvaluationMutation } from "../../graphql/generated/graphql";
+import { useSubmitMultiEvaluationMutation } from "../../../graphql/generated/graphql";
 import { useNavigate } from "react-router-dom";
 
 type SubmitMultiEvaluationFormData = {

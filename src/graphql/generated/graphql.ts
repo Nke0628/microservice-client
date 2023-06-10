@@ -16,7 +16,6 @@ export type Scalars = {
 };
 
 export type MulritTerm = {
-  __typename?: 'MulritTerm';
   businessTermEndDate: Scalars['String'];
   businessTermName: Scalars['String'];
   businessTermStartDate: Scalars['String'];
@@ -27,7 +26,6 @@ export type MulritTerm = {
 };
 
 export type MultiEvaluation = {
-  __typename?: 'MultiEvaluation';
   goodComment: Scalars['String'];
   id: Scalars['ID'];
   improvementComment: Scalars['String'];
@@ -40,7 +38,6 @@ export type MultiEvaluation = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   submitMultiEvaluation: MultiEvaluation;
 };
 
@@ -50,7 +47,6 @@ export type MutationSubmitMultiEvaluationArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   multiTerms: Array<MulritTerm>;
   myEvaluatingMultiEvaluations: Array<MultiEvaluation>;
   reportSetting: ReportSetting;
@@ -80,7 +76,6 @@ export type QuerySearchMyEvaluatingMultiEvaluationsArgs = {
 };
 
 export type ReportSetting = {
-  __typename?: 'ReportSetting';
   reportSettingDetails: Array<ReportSettingDetail>;
   reportSettingId: Scalars['ID'];
   saveUser: User;
@@ -89,7 +84,6 @@ export type ReportSetting = {
 };
 
 export type ReportSettingDetail = {
-  __typename?: 'ReportSettingDetail';
   charaNum?: Maybe<Scalars['Float']>;
   inputFlg: Scalars['Boolean'];
   positionLayerName: Scalars['String'];
@@ -99,7 +93,6 @@ export type ReportSettingDetail = {
 };
 
 export type SearchMultiEvaluation = {
-  __typename?: 'SearchMultiEvaluation';
   multiEvaluation: Array<MultiEvaluation>;
   totalCount: Scalars['Float'];
 };
@@ -114,7 +107,6 @@ export type SubmitMultiEvaluationInput = {
 };
 
 export type User = {
-  __typename?: 'User';
   id: Scalars['ID'];
   name: Scalars['String'];
 };
@@ -124,26 +116,26 @@ export type FetchMultiEvaluationsQueryVariables = Exact<{
 }>;
 
 
-export type FetchMultiEvaluationsQuery = { __typename?: 'Query', myEvaluatingMultiEvaluations: Array<{ __typename?: 'MultiEvaluation', id: string, targetUser: { __typename?: 'User', name: string } }> };
+export type FetchMultiEvaluationsQuery = { myEvaluatingMultiEvaluations: Array<{ id: string, targetUser: { name: string } }> };
 
 export type FetchMultiTermsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchMultiTermsQuery = { __typename?: 'Query', multiTerms: Array<{ __typename?: 'MulritTerm', id: string, businessTermName: string, multiTermStartDate: string, multiTermEndDate: string, isCurrentTerm: boolean }> };
+export type FetchMultiTermsQuery = { multiTerms: Array<{ id: string, businessTermName: string, multiTermStartDate: string, multiTermEndDate: string, isCurrentTerm: boolean }> };
 
 export type FetchReportSettingQueryVariables = Exact<{
   termId: Scalars['Float'];
 }>;
 
 
-export type FetchReportSettingQuery = { __typename?: 'Query', reportSetting: { __typename?: 'ReportSetting', savedAt: string, saveUser: { __typename?: 'User', id: string, name: string }, reportSettingDetails: Array<{ __typename?: 'ReportSettingDetail', reportSettingDetailId: string, positionLayerType: number, positionLayerName: string, inputFlg: boolean, theme: string, charaNum?: number | null }> } };
+export type FetchReportSettingQuery = { reportSetting: { savedAt: string, saveUser: { id: string, name: string }, reportSettingDetails: Array<{ reportSettingDetailId: string, positionLayerType: number, positionLayerName: string, inputFlg: boolean, theme: string, charaNum?: number | null }> } };
 
 export type SubmitMultiEvaluationMutationVariables = Exact<{
   input: SubmitMultiEvaluationInput;
 }>;
 
 
-export type SubmitMultiEvaluationMutation = { __typename?: 'Mutation', submitMultiEvaluation: { __typename?: 'MultiEvaluation', id: string } };
+export type SubmitMultiEvaluationMutation = { submitMultiEvaluation: { id: string } };
 
 
 export const FetchMultiEvaluationsDocument = gql`

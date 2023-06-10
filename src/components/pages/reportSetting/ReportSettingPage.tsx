@@ -3,7 +3,7 @@ import { type } from "os";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import { useFetchReportSettingQuery } from "../../graphql/generated/graphql";
+import { useFetchReportSettingQuery } from "../../../graphql/generated/graphql";
 
 const ReportSettingPage: React.FC = () => {
   const [searchParams] = useSearchParams();

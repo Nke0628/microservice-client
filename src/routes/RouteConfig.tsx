@@ -1,15 +1,16 @@
 import { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "../components/layout/Layout";
+import Layout from "../components/common/Layout";
 
 const MultiEvaluationPage = lazy(
-  () => import("../components/pages/MultiEvaluationPage")
+  () => import("../components/pages/multiEvaluation/MultiEvaluationPage")
 );
 const RputeSamplePage = lazy(
-  () => import("../components/pages/SumitMultiEvaluationPage")
+  () =>
+    import("../components/pages/submitMultiEvaluation/SumitMultiEvaluationPage")
 );
 const ReportSettingPage = lazy(
-  () => import("../components/pages/ReportSettingPage")
+  () => import("../components/pages/reportSetting/ReportSettingPage")
 );
 
 const RouteConfig = () => (
