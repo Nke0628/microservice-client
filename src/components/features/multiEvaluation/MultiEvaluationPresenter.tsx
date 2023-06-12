@@ -88,7 +88,7 @@ const MultiEvaluationPresenter: React.FC<MultiEvaluationPresenterProps> = ({
         </Link>
       </ContentHeader>
       <ActionMenu>
-        <Link to={"/sample"}>
+        <Link to={"/mulit_evaluation"}>
           <Button>＋新規登録</Button>
         </Link>
       </ActionMenu>

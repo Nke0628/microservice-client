@@ -18,7 +18,7 @@ const RouteConfig = () => (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<MultiEvaluationPage />} />
-        <Route path="/sample" element={<RputeSamplePage />} />
+        <Route path="/mulit_evaluation" element={<RputeSamplePage />} />
         <Route path="/report_setting" element={<ReportSettingPage />} />
       </Route>
     </Routes>
