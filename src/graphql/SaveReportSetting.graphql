@@ -1,0 +1,17 @@
+mutation saveReportSetting($input: SaveReportSettingInput!) {
+  saveReportSetting(input: $input) {
+    saveUser {
+      id
+      name
+    }
+    savedAt
+    reportSettingDetails {
+      reportSettingDetailId
+      positionLayerType
+      positionLayerName
+      inputFlg
+      theme
+      charaNum
+    }
+  }
+}

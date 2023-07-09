@@ -38,7 +38,13 @@ export type MultiEvaluation = {
 };
 
 export type Mutation = {
+  saveReportSetting: ReportSetting;
   submitMultiEvaluation: MultiEvaluation;
+};
+
+
+export type MutationSaveReportSettingArgs = {
+  input: SaveReportSettingInput;
 };
 
 
@@ -92,6 +98,18 @@ export type ReportSettingDetail = {
   theme: Scalars['String'];
 };
 
+export type SaveReportSettingDetailInput = {
+  charaNum?: InputMaybe<Scalars['Float']>;
+  inputFlg: Scalars['Boolean'];
+  positionLayerType: Scalars['Float'];
+  theme: Scalars['String'];
+};
+
+export type SaveReportSettingInput = {
+  reportSettingDetail: Array<SaveReportSettingDetailInput>;
+  termId: Scalars['Float'];
+};
+
 export type SearchMultiEvaluation = {
   multiEvaluation: Array<MultiEvaluation>;
   totalCount: Scalars['Float'];
@@ -129,6 +147,13 @@ export type FetchReportSettingQueryVariables = Exact<{
 
 
 export type FetchReportSettingQuery = { reportSetting: { savedAt: string, saveUser: { id: string, name: string }, reportSettingDetails: Array<{ reportSettingDetailId: string, positionLayerType: number, positionLayerName: string, inputFlg: boolean, theme: string, charaNum?: number | null }> } };
+
+export type SaveReportSettingMutationVariables = Exact<{
+  input: SaveReportSettingInput;
+}>;
+
+
+export type SaveReportSettingMutation = { saveReportSetting: { savedAt: string, saveUser: { id: string, name: string }, reportSettingDetails: Array<{ reportSettingDetailId: string, positionLayerType: number, positionLayerName: string, inputFlg: boolean, theme: string, charaNum?: number | null }> } };
 
 export type SubmitMultiEvaluationMutationVariables = Exact<{
   input: SubmitMultiEvaluationInput;
@@ -189,6 +214,29 @@ export const FetchReportSettingDocument = gql`
 
 export function useFetchReportSettingQuery(options: Omit<Urql.UseQueryArgs<FetchReportSettingQueryVariables>, 'query'>) {
   return Urql.useQuery<FetchReportSettingQuery, FetchReportSettingQueryVariables>({ query: FetchReportSettingDocument, ...options });
+};
+export const SaveReportSettingDocument = gql`
+    mutation saveReportSetting($input: SaveReportSettingInput!) {
+  saveReportSetting(input: $input) {
+    saveUser {
+      id
+      name
+    }
+    savedAt
+    reportSettingDetails {
+      reportSettingDetailId
+      positionLayerType
+      positionLayerName
+      inputFlg
+      theme
+      charaNum
+    }
+  }
+}
+    `;
+
+export function useSaveReportSettingMutation() {
+  return Urql.useMutation<SaveReportSettingMutation, SaveReportSettingMutationVariables>(SaveReportSettingDocument);
 };
 export const SubmitMultiEvaluationDocument = gql`
     mutation submitMultiEvaluation($input: SubmitMultiEvaluationInput!) {

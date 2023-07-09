@@ -8,12 +8,14 @@ export type ReportSettingPresenterProps = {
     e: React.ChangeEvent<HTMLInputElement>,
     i: number
   ) => void;
+  handleSaveReportSetting: () => void;
 };
 
 const ReportSettingPresenter: React.FC<ReportSettingPresenterProps> = ({
   reportSetting,
   handleTextUpdate,
   handleCheckUpdate,
+  handleSaveReportSetting,
 }) => {
   return (
     <div>
@@ -67,7 +69,7 @@ const ReportSettingPresenter: React.FC<ReportSettingPresenterProps> = ({
           </p>
         </div>
         <div>
-          <Button>保存</Button>
+          <Button onClick={handleSaveReportSetting}>保存</Button>
         </div>
       </div>
     </div>
