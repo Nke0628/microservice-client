@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import TargetCardList from "../../features/multiEvaluation/TargetCardList";
 import styled from "styled-components";
 import { FetchMultiEvaluationsQuery } from "../../../graphql/generated/graphql";
+import { ReportSubmitStatus, SearchCondition } from "./type";
 
 const ContentHeader = styled.div`
   display: flex;
@@ -34,6 +35,10 @@ export type MultiEvaluationPresenterProps = {
   multiTermId: string;
   setMultiTermId: (value: string) => void;
   evaluatingEvalations: FetchMultiEvaluationsQuery["myEvaluatingMultiEvaluations"];
+  searchCondition: SearchCondition;
+  handleChangeReportSubmitStatus: (
+    reportSubmitStatus: ReportSubmitStatus
+  ) => void;
 };
 
 type SelectData = {
@@ -46,6 +51,7 @@ const MultiEvaluationPresenter: React.FC<MultiEvaluationPresenterProps> = ({
   multiTermId,
   setMultiTermId,
   evaluatingEvalations,
+  handleChangeReportSubmitStatus,
 }) => {
   //　Mantineのセレクトボックス用に変換
   const convertPropsToMultiTermSelectBox = (): SelectData[] => {
@@ -87,6 +93,45 @@ const MultiEvaluationPresenter: React.FC<MultiEvaluationPresenterProps> = ({
           <Button>設定</Button>
         </Link>
       </ContentHeader>
+      <div>
+        <p>検索条件</p>
+        <div>
+          <span>レポート提出状況 </span>
+          <input
+            id="chocolate"
+            type="checkbox"
+            value="chocolate"
+            onChange={() =>
+              handleChangeReportSubmitStatus(ReportSubmitStatus.UNANSWERED)
+            }
+          />
+          <label htmlFor="#chocolate" className="form-check-label">
+            未回答
+          </label>
+          <input
+            id="cake"
+            type="checkbox"
+            value="cake"
+            onChange={() =>
+              handleChangeReportSubmitStatus(ReportSubmitStatus.ACCEPT)
+            }
+          />
+          <label htmlFor="#cake" className="form-check-label">
+            承諾
+          </label>
+          <input
+            id="pie"
+            type="checkbox"
+            value="pie"
+            onChange={() =>
+              handleChangeReportSubmitStatus(ReportSubmitStatus.DECLINE)
+            }
+          />
+          <label htmlFor="#pie" className="form-check-label">
+            辞退
+          </label>
+        </div>
+      </div>
       <ActionMenu>
         <Link to={"/mulit_evaluation"}>
           <Button>＋新規登録</Button>
