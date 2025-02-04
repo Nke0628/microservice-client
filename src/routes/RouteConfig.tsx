@@ -12,6 +12,7 @@ const RputeSamplePage = lazy(
 const ReportSettingPage = lazy(
   () => import("../components/pages/reportSetting/ReportSettingPage")
 );
+const JsPdfPage = lazy(() => import("../components/pages/jsPdf/JsPdfPage"));
 
 const RouteConfig = () => (
   <BrowserRouter>
@@ -20,6 +21,7 @@ const RouteConfig = () => (
         <Route index element={<MultiEvaluationPage />} />
         <Route path="/mulit_evaluation" element={<RputeSamplePage />} />
         <Route path="/report_setting" element={<ReportSettingPage />} />
+        <Route path="/js_pdf" element={<JsPdfPage />} />
       </Route>
     </Routes>
   </BrowserRouter>
